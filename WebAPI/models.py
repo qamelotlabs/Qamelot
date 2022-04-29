@@ -16,11 +16,16 @@ class PhotoMedia(models.Model):
        
     def __str__(self):
         return self.imageurl
-
+    class Meta:
+        verbose_name = 'Photo Media'
 
 class Categories(models.Model):
     name = models.CharField(max_length=255, blank=True)
 
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = 'Categorie'
 
 class DigitialAssets(models.Model):
     token = models.CharField(max_length=100)
@@ -34,6 +39,9 @@ class DigitialAssets(models.Model):
        
     def __str__(self):
         return self.title
+        
+    class Meta:
+        verbose_name = 'Digitial Asset'
 
 
 
