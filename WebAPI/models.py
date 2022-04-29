@@ -11,15 +11,8 @@ from imagekit.admin import AdminThumbnail
 
 
 class PhotoMedia(models.Model):
-    imageurl = ProcessedImageField(upload_to='images/',
-                               processors=[ResizeToFill(550, 355)],
-                               format='JPEG',
-                               options={'quality': 90})
+    imageurl = models.CharField(max_length=254, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    image_thumbnail = ImageSpecField(source='imageurl',  
-                                      processors=[ResizeToFill(150, 150)],
-                                      format='JPEG',
-                                      options={'quality': 80})
        
     def __str__(self):
         return self.imageurl
@@ -33,11 +26,11 @@ class DigitialAssets(models.Model):
     token = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     descriptions = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='images/')
+    image = models.CharField(max_length=254, blank=True)
     imageMedia = models.ManyToManyField(PhotoMedia, blank=True)
-    blochain = models.CharField(max_length=100)
+    blockchain = models.CharField(max_length=100)
     bid_price = models.CharField(max_length=100)
-    category = models.OneToOneField(Categories, on_delete=models.CASCADE, related_name='category')
+    category = models.OneToOneField(Categories, on_delete=models.CASCADE, related_name='category', blank=True)
        
     def __str__(self):
         return self.title
