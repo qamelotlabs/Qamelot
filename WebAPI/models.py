@@ -13,10 +13,10 @@ from django import forms
 
 class AssetsUsers(models.Model):
     user_type = models.CharField(max_length=254)
-    username = models.CharField(max_length=254)
-    profile_img_url = models.CharField(max_length=254)
+    username = models.CharField(max_length=254, blank=True)
+    profile_img_url = models.CharField(max_length=254, blank=True)
     address = models.CharField(max_length=254)
-    config = models.CharField(max_length=254, blank=True)
+    value = models.CharField(max_length=254, blank=True)
 
     def __str__(self):
         return self.username
@@ -25,72 +25,64 @@ class AssetsUsers(models.Model):
         verbose_name = 'Assets User'
 
 
-class AssetsCollection(models.Model):
-    banner_image_url = models.CharField(max_length=100)
-    chat_url = models.CharField(max_length=100, blank=True)
-    created_date = models.CharField(max_length=100)
-    default_to_fiat = models.BooleanField()
-    description = models.TextField(blank=True, default='')
-    dev_buyer_fee_basis_points = models.CharField(max_length=100, blank=True)
-    dev_seller_fee_basis_points = models.CharField(max_length=100, blank=True)
-    discord_url = models.CharField(max_length=100, blank=True)
-    card_display_style = models.CharField(max_length=100, blank=True)
-    external_url = models.CharField(max_length=100, blank=True)
-    featured = models.BooleanField()
-    featured_image_url = models.CharField(max_length=100, blank=True)
-    hidden = models.BooleanField()
-    safelist_request_status = models.CharField(max_length=100, blank=True)
-    image_url = models.CharField(max_length=100, blank=True)
-    is_subject_to_whitelist = models.CharField(max_length=100, blank=True)
-    large_image_url = models.CharField(max_length=100, blank=True)
-    medium_username = models.CharField(max_length=100, blank=True)
-    name = models.CharField(max_length=100, blank=True)
-    only_proxied_transfers = models.BooleanField()
-    opensea_buyer_fee_basis_points = models.CharField(max_length=100, blank=True)
-    opensea_seller_fee_basis_points = models.CharField(max_length=100, blank=True)
-    payout_address = models.CharField(max_length=100, blank=True)
-    require_email = models.BooleanField()
-    short_description = models.TextField(blank=True, default='')
-    slug = models.CharField(max_length=100, blank=True)
-    telegram_url = models.CharField(max_length=100, blank=True)
-    twitter_username = models.CharField(max_length=100, blank=True)
-    instagram_username = models.CharField(max_length=100, blank=True)
-    wiki_url = models.CharField(max_length=100, blank=True)
-    is_nsfw = models.BooleanField()
+class AssetsImage(models.Model):
+    type = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=100)
+    representation = models.CharField(max_length=100)
+    mimeType = models.CharField(max_length=100)
+    size = models.CharField(max_length=100, blank=True)
+    width = models.CharField(max_length=100, blank=True)
+    height = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.url
         
     class Meta:
-        verbose_name = 'Assets Collection'
+        verbose_name = 'Assets Image'
+
+
+class APIPaginate(models.Model):
+    total = models.CharField(max_length=100, blank=True)
+    continuation = models.CharField(max_length=100, blank=True)
+    updated_at = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.url
+        
+    class Meta:
+        verbose_name = 'API Paginate'
+
 
 
 class Assets(models.Model):
-    token_id = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, default='')
-    image_url = models.CharField(max_length=100)
-    image_preview_url = models.CharField(max_length=100, blank=True)
-    image_thumbnail_url = models.CharField(max_length=100, blank=True)
-    permalink = models.CharField(max_length=100)
-    external_link = models.CharField(max_length=100, blank=True)
-    asset_contract_id = models.CharField(max_length=100)
-    collection_id = models.ForeignKey(
-        AssetsCollection, on_delete=models.CASCADE, related_name='collection_id'
-        )
-    last_sale = models.CharField(max_length=100, blank=True)
-    top_bid = models.CharField(max_length=100, blank=True)
-    listing_date = models.CharField(max_length=100, blank=True)
-    is_presale = models.CharField(max_length=100, blank=True)
-    transfer_fee_payment_token = models.CharField(max_length=100, blank=True)
-    transfer_fee = models.CharField(max_length=100, blank=True)
-    sell_orders = models.CharField(max_length=100, blank=True)
+    id = models.CharField(max_length=100, primary_key=True)
+    blockchain = models.CharField(max_length=100)
+    collection = models.CharField(max_length=100)
+    contract = models.CharField(max_length=100)
+    tokenId = models.CharField(max_length=100)
     owner_id = models.ForeignKey(
-        AssetsUsers, on_delete=models.CASCADE, related_name='owner'
+        AssetsUsers, on_delete=models.CASCADE, related_name='owner_id', blank=True
         )
     creator_id = models.ForeignKey(
-        AssetsUsers, on_delete=models.CASCADE, related_name='creator'
+        AssetsUsers, on_delete=models.CASCADE, related_name='creator_id', blank=True
         )
+    mintedAt = models.CharField(max_length=100)
+    lastUpdatedAt = models.CharField(max_length=100)
+    supply = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='')
+    image_id = models.ForeignKey(
+        AssetsImage, on_delete=models.CASCADE, related_name='image_id', blank=True
+        )
+    permalink = models.CharField(max_length=100, blank=True)
+    restriction = models.CharField(max_length=100, blank=True)
+    deleted = models.BooleanField(default=False)
+    auction = models.CharField(max_length=100, blank=True)
+    totalStock = models.CharField(max_length=100, blank=True)
+    sellers = models.IntegerField(default=0, blank=True)
+    status = models.CharField(max_length=100, blank=True)
+    platform = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return self.name
@@ -98,4 +90,43 @@ class Assets(models.Model):
     class Meta:
         verbose_name = 'Asset'
 
+
+# class AssetsCollection(models.Model):
+#     banner_image_url = models.CharField(max_length=100)
+#     chat_url = models.CharField(max_length=100, blank=True)
+#     created_date = models.CharField(max_length=100)
+#     default_to_fiat = models.BooleanField()
+#     description = models.TextField(blank=True, default='')
+#     dev_buyer_fee_basis_points = models.CharField(max_length=100, blank=True)
+#     dev_seller_fee_basis_points = models.CharField(max_length=100, blank=True)
+#     discord_url = models.CharField(max_length=100, blank=True)
+#     card_display_style = models.CharField(max_length=100, blank=True)
+#     external_url = models.CharField(max_length=100, blank=True)
+#     featured = models.BooleanField()
+#     featured_image_url = models.CharField(max_length=100, blank=True)
+#     hidden = models.BooleanField()
+#     safelist_request_status = models.CharField(max_length=100, blank=True)
+#     image_url = models.CharField(max_length=100, blank=True)
+#     is_subject_to_whitelist = models.CharField(max_length=100, blank=True)
+#     large_image_url = models.CharField(max_length=100, blank=True)
+#     medium_username = models.CharField(max_length=100, blank=True)
+#     name = models.CharField(max_length=100, blank=True)
+#     only_proxied_transfers = models.BooleanField()
+#     opensea_buyer_fee_basis_points = models.CharField(max_length=100, blank=True)
+#     opensea_seller_fee_basis_points = models.CharField(max_length=100, blank=True)
+#     payout_address = models.CharField(max_length=100, blank=True)
+#     require_email = models.BooleanField()
+#     short_description = models.TextField(blank=True, default='')
+#     slug = models.CharField(max_length=100, blank=True)
+#     telegram_url = models.CharField(max_length=100, blank=True)
+#     twitter_username = models.CharField(max_length=100, blank=True)
+#     instagram_username = models.CharField(max_length=100, blank=True)
+#     wiki_url = models.CharField(max_length=100, blank=True)
+#     is_nsfw = models.BooleanField()
+
+#     def __str__(self):
+#         return self.name
+        
+#     class Meta:
+#         verbose_name = 'Assets Collection'
 
