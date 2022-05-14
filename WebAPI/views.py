@@ -1,7 +1,7 @@
 import requests
 snav_timetable_url = "https://api.rarible.org/v0.1/items/all?size=5"
 res = requests.get(snav_timetable_url).json()
-# print(res['items'][0])
+# print(res['continuation'])
 
 # demolisting = []
 # for item in res['items']:
