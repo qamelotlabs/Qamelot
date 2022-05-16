@@ -1,15 +1,10 @@
-from time import sleep
-from celery import shared_task
-from bs4 import BeautifulSoup
-from urllib.request import urlopen, Request
-from WebAPI.models import *
-import requests
+from WebAPI.project_modules import *
 
 @shared_task
 # some heavy stuff here
 def create_Assets():
     print("create task running")
-    snav_timetable_url  = "https://api.rarible.org/v0.1/items/all?size=5"
+    snav_timetable_url  = "https://api.rarible.org/v0.1/items/all"
     res                 = requests.get(snav_timetable_url).json()
     api_continuation    = APIPaginate.objects.filter(continuation=res['continuation']).exists()
 
@@ -29,33 +24,23 @@ def create_Assets():
         getAssetDetail = Assets.objects.filter(id=item['id']).exists()
         if getAssetDetail is False:
             asset_id = Assets.objects.create(
-                    id              =   item['id'],
-                    blockchain      =   item['blockchain'],
-                    collection      =   item['collection'],
-                    contract        =   item['contract'],
-                    tokenId         =   item['tokenId'],
-                    mintedAt        =   item['mintedAt'],
-                    lastUpdatedAt   =   item['lastUpdatedAt'],
-                    supply          =   item['contract'],
-                    deleted         =   item['deleted'],
-                    auction         =   item['auctions'],
-                    totalStock      =   item['totalStock'],
-                    sellers         =   item['sellers'],
-                    status          =   'ACTIVE',
-                    platform        =   'rarible'
+                id              =   item['id'],
+                blockchain      =   item['blockchain'],
+                collection      =   item['collection'],
+                contract        =   item['contract'],
+                tokenId         =   item['tokenId'],
+                mintedAt        =   item['mintedAt'],
+                lastUpdatedAt   =   item['lastUpdatedAt'],
+                supply          =   item['contract'],
+                deleted         =   item['deleted'],
+                auction         =   item['auctions'],
+                totalStock      =   item['totalStock'],
+                sellers         =   item['sellers'],
+                status          =   'ACTIVE',
+                platform        =   'rarible'
             )
 
             print("asset_id: ", asset_id.id)
-
-            try:
-                Assets.objects.filter(id__exact=asset_id.id).update(
-                    name            =   item['meta']['name'],
-                    description     =   item['meta']['description'],
-                    restriction     =   item['meta']['restrictions']
-                )
-            except:
-                print('description not found')
-                pass                
 
             creatorsList            = []
             if (len(item['creators']) > 0):
@@ -71,7 +56,6 @@ def create_Assets():
 
                 for c_id in creatorsList:
                     Assets.objects.filter(id__exact=asset_id.id).update(creator_id_id = c_id)
-                # creatorsList.clear()
 
             ownersList              = []
             if (len(item['owners']) > 0):
@@ -87,27 +71,55 @@ def create_Assets():
 
                 for o_id in ownersList:
                     Assets.objects.filter(id__exact=asset_id.id).update(owner_id_id = o_id)
-                # ownersList.clear()
 
-            imglist = []
             try:
-                if (len(item['meta']['content']) > 0):
-                    for info in item['meta']['content']:
-                        image_id = AssetsImage.objects.create(
-                            type            =   info["@type"],
-                            url             =   info["url"],
-                            representation  =   info["representation"],
-                            mimeType        =   info["mimeType"]
-                        )
-                        imglist.append(image_id.id)
+                if 'meta' in item:
+                    name                = ''
+                    description         = ''
+                    restriction         = ''
+                    meta_name           = item['meta']
+                    meta_description    = item['meta']
+                    meta_restriction    = item['meta']
 
-                    print("imglist", imglist)
+                    if 'name' in meta_name:
+                        name            =   item['meta']['name']
 
-                    for im_id in imglist:
-                        Assets.objects.filter(id__exact=asset_id.id).update(image_id_id = im_id)
+                    if 'description' in meta_description:
+                        description     =   item['meta']['description']
+
+                    if 'restriction' in meta_restriction:
+                        restriction     =   item['meta']['restrictions']
+
+                    Assets.objects.filter(id__exact=asset_id.id).update(
+                        name            =   name,
+                        description     =   description,
+                        restriction     =   restriction
+                    )
+
+                    print (item['meta'])
+
+                    imglist = []
+                    meta_content = item['meta']
+                    if 'content' in meta_content:
+                        if len(item['meta']['content']) > 0:
+                            for info in item['meta']['content']:
+                                image_id = AssetsImage.objects.create(
+                                    type            =   info["@type"],
+                                    url             =   info["url"],
+                                    representation  =   info["representation"],
+                                    mimeType        =   info["mimeType"]
+                                )
+                                imglist.append(image_id.id)
                     
+                            print("imglist", imglist, info["url"])
+
+                            for im_id in imglist:
+                                Assets.objects.filter(id__exact=asset_id.id).update(image_id_id = im_id)
+                else:
+                    print ("Not present")
+
             except:
-                print('image not found')
+                print('meta not found')
                 pass
 
         # sleep few seconds to avoid database block

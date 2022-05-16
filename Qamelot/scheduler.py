@@ -1,9 +1,7 @@
 from .rarible_tasks import *
-import schedule
-import time
-from os import system
+from WebAPI.project_modules import *
 
-# schedule the job to run at intervals of 1 min
+# schedule the job to run at intervals of 20 secs
 schedule.every(20).seconds.do(create_Assets)
 
 while True:
