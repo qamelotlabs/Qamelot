@@ -1,4 +1,4 @@
-from .rarible_tasks import *
+from WebAPI.scraping_and_seeding.rarible_scrapping import *
 from WebAPI.project_modules import *
 
 # schedule the job to run at intervals of 20 secs
