@@ -8,32 +8,82 @@ from django.contrib.auth.models import (
 )
 from django.contrib import admin
 from imagekit.admin import AdminThumbnail
+from django import forms
 
 
-class PhotoMedia(models.Model):
-    imageurl = models.CharField(max_length=254, blank=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-       
+class AssetsUsers(models.Model):
+    user_type = models.CharField(max_length=254)
+    username = models.CharField(max_length=254, blank=True)
+    profile_img_url = models.CharField(max_length=254, blank=True)
+    address = models.CharField(max_length=254)
+    value = models.CharField(max_length=254, blank=True)
+
     def __str__(self):
-        return self.imageurl
+        return self.username
+        
+    class Meta:
+        verbose_name = 'Assets User'
 
 
-class Categories(models.Model):
-    name = models.CharField(max_length=255, blank=True)
+class AssetsImage(models.Model):
+    type = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=100)
+    representation = models.CharField(max_length=100)
+    mimeType = models.CharField(max_length=100)
+    size = models.CharField(max_length=100, blank=True)
+    width = models.CharField(max_length=100, blank=True)
+    height = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.url
+        
+    class Meta:
+        verbose_name = 'Assets Image'
 
 
-class DigitialAssets(models.Model):
-    token = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
-    descriptions = models.CharField(max_length=50)
-    image = models.CharField(max_length=254, blank=True)
-    imageMedia = models.ManyToManyField(PhotoMedia, blank=True)
+class APIPaginate(models.Model):
+    total = models.CharField(max_length=100, blank=True)
+    continuation = models.CharField(max_length=100, blank=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.url
+        
+    class Meta:
+        verbose_name = 'API Paginate'
+
+
+class Assets(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
     blockchain = models.CharField(max_length=100)
-    bid_price = models.CharField(max_length=100)
-    category = models.OneToOneField(Categories, on_delete=models.CASCADE, related_name='category', blank=True)
-       
+    collection = models.CharField(max_length=100)
+    contract = models.CharField(max_length=100)
+    tokenId = models.CharField(max_length=100)
+    owner_id = models.ForeignKey(
+        AssetsUsers, on_delete=models.CASCADE, related_name='owner_id', blank=True
+        )
+    creator_id = models.ForeignKey(
+        AssetsUsers, on_delete=models.CASCADE, related_name='creator_id', blank=True
+        )
+    mintedAt = models.CharField(max_length=100)
+    lastUpdatedAt = models.CharField(max_length=100)
+    supply = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True, default='')
+    image_id = models.ForeignKey(
+        AssetsImage, on_delete=models.CASCADE, related_name='image_id', blank=True
+        )
+    permalink = models.CharField(max_length=100, blank=True)
+    restriction = models.CharField(max_length=100, blank=True)
+    deleted = models.BooleanField(default=False)
+    auction = models.CharField(max_length=100, blank=True)
+    totalStock = models.CharField(max_length=100, blank=True)
+    sellers = models.IntegerField(default=0, blank=True)
+    status = models.CharField(max_length=100, blank=True)
+    platform = models.CharField(max_length=100, blank=True)
+
     def __str__(self):
-        return self.title
-
-
-
+        return self.name
+        
+    class Meta:
+        verbose_name = 'Asset'
