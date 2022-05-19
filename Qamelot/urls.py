@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
+from WebAPI.scraping_and_seeding.image_scraping import *
 from .scheduler import *
 
 urlpatterns = [

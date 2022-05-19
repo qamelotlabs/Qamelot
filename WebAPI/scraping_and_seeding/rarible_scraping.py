@@ -1,5 +1,5 @@
 from WebAPI.project_modules import *
-
+from .image_scraping import *
 @shared_task
 # some heavy stuff here
 def create_Assets():
@@ -8,16 +8,21 @@ def create_Assets():
     res                 = requests.get(snav_timetable_url).json()
     api_continuation    = APIPaginate.objects.filter(continuation=res['continuation']).exists()
 
-    if api_continuation is False:
-        APIPaginate.objects.create(
-           total            =   res['total'],
-           continuation     =   res['continuation']
-        )
-    else:
-        APIPaginate.objects.filter(continuation=res['continuation']).update(
+    print(res['continuation'])
+
+    try:
+        if api_continuation is False:
+            APIPaginate.objects.create(
             total            =   res['total'],
             continuation     =   res['continuation']
-        )
+            )
+        else:
+            APIPaginate.objects.filter(continuation=res['continuation']).update(
+                total            =   res['total'],
+                continuation     =   res['continuation']
+            )
+    except:
+        pass
 
     for item in res['items']:
         # create objects in database
@@ -72,55 +77,55 @@ def create_Assets():
                 for o_id in ownersList:
                     Assets.objects.filter(id__exact=asset_id.id).update(owner_id_id = o_id)
 
-            try:
-                if 'meta' in item:
-                    name                = ''
-                    description         = ''
-                    restriction         = ''
-                    meta_name           = item['meta']
-                    meta_description    = item['meta']
-                    meta_restriction    = item['meta']
+            if 'meta' in item:
+                name                = ''
+                description         = ''
+                restriction         = ''
+                meta_name           = item['meta']
+                meta_description    = item['meta']
+                meta_restriction    = item['meta']
 
-                    if 'name' in meta_name:
-                        name            =   item['meta']['name']
+                if 'name' in meta_name:
+                    name            =   item['meta']['name']
 
-                    if 'description' in meta_description:
-                        description     =   item['meta']['description']
+                if 'description' in meta_description:
+                    description     =   item['meta']['description']
 
-                    if 'restriction' in meta_restriction:
-                        restriction     =   item['meta']['restrictions']
+                if 'restriction' in meta_restriction:
+                    restriction     =   item['meta']['restrictions']
 
-                    Assets.objects.filter(id__exact=asset_id.id).update(
-                        name            =   name,
-                        description     =   description,
-                        restriction     =   restriction
-                    )
+                Assets.objects.filter(id__exact=asset_id.id).update(
+                    name            =   name,
+                    description     =   description,
+                    restriction     =   restriction
+                )
 
-                    print (item['meta'])
+                print (item['meta'])
 
-                    imglist = []
-                    meta_content = item['meta']
-                    if 'content' in meta_content:
-                        if len(item['meta']['content']) > 0:
-                            for info in item['meta']['content']:
-                                image_id = AssetsImage.objects.create(
-                                    type            =   info["@type"],
-                                    url             =   info["url"],
-                                    representation  =   info["representation"],
-                                    mimeType        =   info["mimeType"]
-                                )
-                                imglist.append(image_id.id)
-                    
-                            print("imglist", imglist, info["url"])
+                imglist = []
+                meta_content = item['meta']
+                if 'content' in meta_content:
+                    if len(item['meta']['content']) > 0:
+                        for info in item['meta']['content']:
 
-                            for im_id in imglist:
-                                Assets.objects.filter(id__exact=asset_id.id).update(image_id_id = im_id)
-                else:
-                    print ("Not present")
+                            if info["url"]:
+                                imageSubname = str(asset_id.tokenId) +'_'
+                                new_meta_url = uploadFile(info["url"], imageSubname)
 
-            except:
-                print('meta not found')
-                pass
+                            image_id = AssetsImage.objects.create(
+                                type            =   info["@type"],
+                                url             =   new_meta_url,
+                                representation  =   info["representation"],
+                                mimeType        =   info["mimeType"]
+                            )
+                            imglist.append(image_id.id)
+                
+                        print("imglist", imglist, info["url"], new_meta_url)
+
+                        for im_id in imglist:
+                            Assets.objects.filter(id__exact=asset_id.id).update(image_id_id = im_id)
+            else:
+                print ("Not present")
 
         # sleep few seconds to avoid database block
         sleep(5)
