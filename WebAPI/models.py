@@ -96,7 +96,7 @@ class AssetsCollection(models.Model):
 
 
 class Assets(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
+    id = models.CharField(max_length=150, primary_key=True)
     blockchain = models.CharField(max_length=100)
     collection = models.CharField(max_length=100)
     contract = models.CharField(max_length=100)
