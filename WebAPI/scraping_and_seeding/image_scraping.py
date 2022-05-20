@@ -17,7 +17,9 @@ def uploadFile(url, imageSubname):
     return new_meta_url
 
 
-# instancesAssetsImages = AssetsImage.objects.exclude(url__contains = 'qamelot.s3.amazonaws.com')
+instancesAssetsImages = AssetsImage.objects.raw('SELECT *')
+
+# print(instancesAssetsImages)
 
 # if instancesAssetsImages:
 #     for img_url in instancesAssetsImages:

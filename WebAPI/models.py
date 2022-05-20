@@ -27,7 +27,8 @@ class AssetsUsers(models.Model):
 
 class AssetsImage(models.Model):
     type = models.CharField(max_length=100, blank=True)
-    url = models.CharField(max_length=100)
+    external_image_url = models.CharField(max_length=100)
+    aws_bucket_image_url = models.CharField(max_length=100)
     representation = models.CharField(max_length=100)
     mimeType = models.CharField(max_length=100)
     size = models.CharField(max_length=100, blank=True)

@@ -9,6 +9,7 @@ import schedule
 import time
 from os import system
 from urllib.parse import urlparse
+from django.db.models import Q
 
 from WebAPI.models import *
 

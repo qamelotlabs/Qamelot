@@ -113,14 +113,15 @@ def create_Assets():
                         for info in item['meta']['content']:
 
                             if info["url"]:
-                                imageSubname    = str(asset_id.tokenId) +'_'
-                                new_meta_url    = uploadFile(info["url"], imageSubname)
+                                imageSubname        = str(asset_id.tokenId) +'_'
+                                new_meta_url        = uploadFile(info["url"], imageSubname)
 
                             image_id = AssetsImage.objects.create(
-                                type            =   info["@type"],
-                                url             =   new_meta_url,
-                                representation  =   info["representation"],
-                                mimeType        =   info["mimeType"]
+                                type                    =   info["@type"],
+                                external_image_url      =   info["url"],
+                                aws_bucket_image_url    =   new_meta_url,
+                                representation          =   info["representation"],
+                                mimeType                =   info["mimeType"]
                             )
                             imglist.append(image_id.id)
                 
