@@ -1,5 +1,7 @@
 from WebAPI.project_modules import *
 from .image_scraping import *
+
+
 @shared_task
 # some heavy stuff here
 def create_Assets():
@@ -47,35 +49,37 @@ def create_Assets():
 
             print("asset_id: ", asset_id.id)
 
-            creatorsList            = []
-            if (len(item['creators']) > 0):
-                for usr in item['creators']:
-                    creator_id = AssetsUsers.objects.create(
-                        user_type   =   'creators',
-                        address     =   usr['account'],
-                        value       =   usr['value']
-                    )
-                    creatorsList.append(creator_id.id)
-                
-                print("creatorsList", creatorsList)
+            if 'creators' in item:
+                creatorsList            = []
+                if (len(item['creators']) > 0):
+                    for usr in item['creators']:
+                        creator_id = AssetsUsers.objects.create(
+                            user_type   =   'creators',
+                            address     =   usr['account'],
+                            value       =   usr['value']
+                        )
+                        creatorsList.append(creator_id.id)
+                    
+                    print("creatorsList", creatorsList)
 
-                for c_id in creatorsList:
-                    Assets.objects.filter(id__exact=asset_id.id).update(creator_id_id = c_id)
+                    for c_id in creatorsList:
+                        Assets.objects.filter(id__exact=asset_id.id).update(creator_id_id = c_id)
 
-            ownersList              = []
-            if (len(item['owners']) > 0):
-                for usr in item['owners']:
-                    owner_id = AssetsUsers.objects.create(
-                        user_type   =   'owners',
-                        address     =   item['owners'][0]['account'],
-                        value       =   item['owners'][0]['value']
-                    )
-                    ownersList.append(owner_id.id)
+            if 'owners' in item:
+                ownersList              = []
+                if (len(item['owners']) > 0):
+                    for usr in item['owners']:
+                        owner_id = AssetsUsers.objects.create(
+                            user_type   =   'owners',
+                            address     =   item['owners'][0]['account'],
+                            value       =   item['owners'][0]['value']
+                        )
+                        ownersList.append(owner_id.id)
 
-                print("creatorsList", creatorsList)
+                    print("creatorsList", creatorsList)
 
-                for o_id in ownersList:
-                    Assets.objects.filter(id__exact=asset_id.id).update(owner_id_id = o_id)
+                    for o_id in ownersList:
+                        Assets.objects.filter(id__exact=asset_id.id).update(owner_id_id = o_id)
 
             if 'meta' in item:
                 name                = ''
@@ -109,8 +113,8 @@ def create_Assets():
                         for info in item['meta']['content']:
 
                             if info["url"]:
-                                imageSubname = str(asset_id.tokenId) +'_'
-                                new_meta_url = uploadFile(info["url"], imageSubname)
+                                imageSubname    = str(asset_id.tokenId) +'_'
+                                new_meta_url    = uploadFile(info["url"], imageSubname)
 
                             image_id = AssetsImage.objects.create(
                                 type            =   info["@type"],
@@ -131,3 +135,20 @@ def create_Assets():
         sleep(5)
 
     return res['continuation']
+
+
+
+# @shared_task
+# # some heavy stuff here
+# def update_Assets():
+#     instances = AssetsImage.objects.filter(url__contains = 'qamelot.s3.amazonaws.com' ) 
+
+#     if instances:
+#         for img_url in instancesAssetsImages:
+
+#             print(img_url)
+
+
+#             # domain = urlparse(img_url).netloc
+
+

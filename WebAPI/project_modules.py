@@ -8,6 +8,7 @@ import boto3
 import schedule
 import time
 from os import system
+from urllib.parse import urlparse
 
 from WebAPI.models import *
 
