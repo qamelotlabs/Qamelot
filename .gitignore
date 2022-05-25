@@ -16,6 +16,7 @@ WebAPI/__pycache__/
 # <django-project-name>/staticfiles/
 WebAPI/static/
 WebAPI/migrations/
+WebAPI/migrations/*
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
 *.py[cod]
