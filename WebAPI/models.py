@@ -26,14 +26,14 @@ class AssetsUsers(models.Model):
 
 
 class AssetsImage(models.Model):
-    type = models.CharField(max_length=100, blank=True)
-    external_image_url = models.CharField(max_length=100)
-    aws_bucket_image_url = models.CharField(max_length=100)
-    representation = models.CharField(max_length=100)
-    mimeType = models.CharField(max_length=100)
-    size = models.CharField(max_length=100, blank=True)
-    width = models.CharField(max_length=100, blank=True)
-    height = models.CharField(max_length=100, blank=True)
+    type = models.CharField(max_length=255, blank=True)
+    external_image_url = models.CharField(max_length=255)
+    aws_bucket_image_url = models.CharField(max_length=255)
+    representation = models.CharField(max_length=255)
+    mimeType = models.CharField(max_length=255)
+    size = models.CharField(max_length=255, blank=True)
+    width = models.CharField(max_length=255, blank=True)
+    height = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.url
@@ -43,8 +43,8 @@ class AssetsImage(models.Model):
 
 
 class APIPaginate(models.Model):
-    total = models.CharField(max_length=100, blank=True)
-    continuation = models.CharField(max_length=100, blank=True)
+    total = models.CharField(max_length=255, blank=True)
+    continuation = models.CharField(max_length=255, blank=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -54,40 +54,42 @@ class APIPaginate(models.Model):
         verbose_name = 'API Paginate'
 
 
+class BestOrders(models.Model):
+    order_id = models.CharField(max_length=255, blank=True)
+    makeprice = models.CharField(max_length=255, blank=True)
+    takeprice = models.CharField(max_length=255, blank=True)
+    maker = models.CharField(max_length=255, blank=True)
+    taker = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.order_id
+
+    class Meta:
+        verbose_name = 'Best Orders'
+
+
 class AssetsCollection(models.Model):
-    banner_image_url = models.CharField(max_length=100)
-    chat_url = models.CharField(max_length=100, blank=True)
-    created_date = models.CharField(max_length=100)
-    default_to_fiat = models.BooleanField()
+    collection_id = models.CharField(max_length=255, blank=True)
+    blockchain = models.CharField(max_length=255, blank=True)
+    colletion_type = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, default='')
-    dev_buyer_fee_basis_points = models.CharField(max_length=100, blank=True)
-    dev_seller_fee_basis_points = models.CharField(max_length=100, blank=True)
-    discord_url = models.CharField(max_length=100, blank=True)
-    card_display_style = models.CharField(max_length=100, blank=True)
-    external_url = models.CharField(max_length=100, blank=True)
-    featured = models.BooleanField()
-    featured_image_url = models.CharField(max_length=100, blank=True)
-    hidden = models.BooleanField()
-    safelist_request_status = models.CharField(max_length=100, blank=True)
-    image_url = models.CharField(max_length=100, blank=True)
-    is_subject_to_whitelist = models.CharField(max_length=100, blank=True)
-    large_image_url = models.CharField(max_length=100, blank=True)
-    medium_username = models.CharField(max_length=100, blank=True)
-    name = models.CharField(max_length=100, blank=True)
-    only_proxied_transfers = models.BooleanField()
-    opensea_buyer_fee_basis_points = models.CharField(
-        max_length=100, blank=True)
-    opensea_seller_fee_basis_points = models.CharField(
-        max_length=100, blank=True)
-    payout_address = models.CharField(max_length=100, blank=True)
-    require_email = models.BooleanField()
-    short_description = models.TextField(blank=True, default='')
-    slug = models.CharField(max_length=100, blank=True)
-    telegram_url = models.CharField(max_length=100, blank=True)
-    twitter_username = models.CharField(max_length=100, blank=True)
-    instagram_username = models.CharField(max_length=100, blank=True)
-    wiki_url = models.CharField(max_length=100, blank=True)
-    is_nsfw = models.BooleanField()
+    symbol = models.CharField(max_length=255, blank=True)
+    owner = models.CharField(max_length=255, blank=True)
+    minters = models.CharField(max_length=255, blank=True)
+    collection_image = models.ForeignKey(
+        AssetsImage, on_delete=models.CASCADE, related_name='collection_image', blank=True, null=True
+    )
+    external_link = models.CharField(max_length=255, blank=True)
+    fee_recipient = models.CharField(max_length=255, blank=True)
+    best_order = models.ForeignKey(
+        BestOrders, on_delete=models.CASCADE, related_name='best_order', blank=True, null=True
+    )
+    twitter_username = models.CharField(max_length=255, blank=True)
+    discord_url = models.CharField(max_length=255, blank=True)
+    seller_fee_basis_point = models.CharField(max_length=255, blank=True)
+    buyer_fee_basis_point = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.name
@@ -97,33 +99,33 @@ class AssetsCollection(models.Model):
 
 
 class Assets(models.Model):
-    id = models.CharField(max_length=150, primary_key=True)
-    blockchain = models.CharField(max_length=100)
-    collection = models.CharField(max_length=100)
-    contract = models.CharField(max_length=100)
-    tokenId = models.CharField(max_length=100)
+    id = models.CharField(max_length=255, primary_key=True)
+    blockchain = models.CharField(max_length=255)
+    collection = models.CharField(max_length=255)
+    contract = models.CharField(max_length=255)
+    tokenId = models.CharField(max_length=255)
     owner_id = models.ForeignKey(
         AssetsUsers, on_delete=models.CASCADE, related_name='owner_id', blank=True, null=True
     )
     creator_id = models.ForeignKey(
         AssetsUsers, on_delete=models.CASCADE, related_name='creator_id', blank=True, null=True
     )
-    mintedAt = models.CharField(max_length=100)
-    lastUpdatedAt = models.CharField(max_length=100)
-    supply = models.CharField(max_length=100)
-    name = models.CharField(max_length=100, blank=True)
+    mintedAt = models.CharField(max_length=255)
+    lastUpdatedAt = models.CharField(max_length=255)
+    supply = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, default='')
     image_id = models.ForeignKey(
         AssetsImage, on_delete=models.CASCADE, related_name='image_id', blank=True, null=True
     )
-    permalink = models.CharField(max_length=100, blank=True)
-    restriction = models.CharField(max_length=100, blank=True)
+    permalink = models.CharField(max_length=255, blank=True)
+    restriction = models.CharField(max_length=255, blank=True)
     deleted = models.BooleanField(default=False)
-    auction = models.CharField(max_length=100, blank=True)
-    totalStock = models.CharField(max_length=100, blank=True)
+    auction = models.CharField(max_length=255, blank=True)
+    totalStock = models.CharField(max_length=255, blank=True)
     sellers = models.IntegerField(default=0, blank=True)
-    status = models.CharField(max_length=100, blank=True)
-    platform = models.CharField(max_length=100, blank=True)
+    status = models.CharField(max_length=255, blank=True)
+    platform = models.CharField(max_length=255, blank=True)
     asset_collection = models.ForeignKey(
         AssetsCollection, on_delete=models.CASCADE, related_name='asset_collection', blank=True, null=True
     )

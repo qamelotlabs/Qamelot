@@ -137,19 +137,3 @@ def create_Assets():
 
     return res['continuation']
 
-
-
-# @shared_task
-# # some heavy stuff here
-# def update_Assets():
-#     instances = AssetsImage.objects.filter(url__contains = 'qamelot.s3.amazonaws.com' ) 
-
-#     if instances:
-#         for img_url in instancesAssetsImages:
-
-#             print(img_url)
-
-
-#             # domain = urlparse(img_url).netloc
-
-
