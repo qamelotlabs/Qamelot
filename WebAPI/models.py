@@ -1,3 +1,4 @@
+import jsonfield
 from django.db import models
 from datetime import datetime
 from imagekit.models import ProcessedImageField, ImageSpecField
@@ -135,3 +136,40 @@ class Assets(models.Model):
 
     class Meta:
         verbose_name = 'Asset'
+
+class TwitterUsers(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    url = models.CharField(max_length=254, blank=True)
+    name = models.CharField(max_length=100, blank=True)
+    followers_count = models.IntegerField(default=0, blank=True)
+    following_count = models.IntegerField(default=0, blank=True)
+    tweet_count = models.IntegerField(default=0, blank=True)
+    listed_count = models.IntegerField(default=0, blank=True)
+    verified = models.BooleanField()
+    username = models.CharField(max_length=100, blank=True)
+    created_at = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.name
+        
+    class Meta:
+        verbose_name = 'Twitter User'
+
+class TwwetData(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    author_id = models.CharField(max_length=100, blank=True)
+    lang = models.CharField(max_length=10)
+    retweet_count = models.IntegerField(default=0, blank=True)
+    reply_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True)
+    quote_count = models.IntegerField(default=0, blank=True)
+    text = models.TextField()
+    in_reply_to_user_id = models.CharField(max_length=100)
+    referenced_tweets = jsonfield.JSONField()
+    mentions = jsonfield.JSONField()
+
+    def __str__(self):
+        return self.name
+        
+    class Meta:
+        verbose_name = 'Tweet Data'
