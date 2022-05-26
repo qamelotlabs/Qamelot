@@ -5,7 +5,6 @@ from urllib.request import urlopen, Request
 import requests
 from django.conf import settings
 import boto3
-import tweepy
 import schedule
 import time
 from os import system

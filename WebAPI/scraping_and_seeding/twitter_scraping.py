@@ -1,33 +1,30 @@
 from WebAPI.project_modules import *
-import pprint
 
-# auth = tweepy.OAuthHandler(settings.TWITTER_API_KEY, settings.TWITTER_API_SECRET)
-# auth.set_access_token(settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_TOKEN_SECRET)
+def fetch_twitter_public_metrics(id = '1527749317402013696'):
+    url = 'https://api.twitter.com/2/tweets?ids={}&tweet.fields=public_metrics&expansions=attachments.media_keys&media.fields=public_metrics'.format(id)
+    headers = {'Authorization': 'Bearer {}'.format(settings.TWITTER_BEARER_TOKEN)}
 
-# api = tweepy.API(auth)
+    res = requests.get(url, headers=headers)
+    print('result: ', res.json())
 
-# user = api.get_user(screen_name='twitter')
+def fetch_user(username = 'twitterdev'):
+    url = 'https://api.twitter.com/labs/2/users/by?usernames={}&user.fields=created_at,description,pinned_tweet_id'.format(username)
+    headers = {'Authorization': 'Bearer {}'.format(settings.TWITTER_BEARER_TOKEN)}
 
-# print(user)
+    res = requests.get(url, headers=headers)
+    print('result: ', res.json())
 
-client = tweepy.Client(bearer_token=settings.TWITTER_BEARER_TOKEN)
+def fetch_user_recent_tweets(username = 'twitterdev'):
+    url = 'https://api.twitter.com/2/tweets/search/recent?query=from:{}&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id&user.fields=created_at,entities'.format(username)
+    headers = {'Authorization': 'Bearer {}'.format(settings.TWITTER_BEARER_TOKEN)}
 
-# import requests
+    res = requests.get(url, headers=headers)
+    # print('result: ', res.json())
 
-# client = tweepy.Client( bearer_token='AAAAAAAAAAAAAAAAAAAAAFbicwEAAAAABj1KVtouWe5iLXXaKR41EWDVFcQ%3DjsJ21SeJlrVmoJeftIkjkqGOrlxx65kyYcHJycD13tgTDndphv',
-#                         consumer_key=settings.TWITTER_API_KEY, 
-#                         consumer_secret=settings.TWITTER_API_SECRET, 
-#                         access_token=settings.TWITTER_ACCESS_TOKEN, 
-#                         access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET, 
-#                         return_type = requests.Response,
-#                         wait_on_rate_limit=True)
+    twitterResData = res.json()
+    # print(twitterResData['data'])
+    for data in twitterResData['data']:
+        print(data['created_at'])
+        fetch_twitter_public_metrics(data['id'])
 
-# Replace with your own search query
-query = 'from:BarackObama -is:retweet'
-
-tweets = client.search_recent_tweets(query=query, tweet_fields=['context_annotations', 'created_at'], max_results=100)
-
-for tweet in tweepy.Paginator(client.search_recent_tweets, query=query,
-                tweet_fields=['created_at', 'public_metrics', 'lang', 'author_id'], expansions='author_id', 
-                user_fields=['username', 'public_metrics', 'verified'], limit=5):
-    pprint.pprint(tweet, width=100)
+fetch_user_recent_tweets()
