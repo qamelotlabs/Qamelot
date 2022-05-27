@@ -1,4 +1,5 @@
 from WebAPI.project_modules import *
+# from .collection_scraping import *
 from .image_scraping import *
 
 
@@ -25,7 +26,8 @@ def create_Assets():
             )
     except:
         pass
-
+    
+    # datas_collections = []
     for item in res['items']:
         # create objects in database
         getAssetDetail = Assets.objects.filter(id=item['id']).exists()
@@ -131,6 +133,9 @@ def create_Assets():
                             Assets.objects.filter(id__exact=asset_id.id).update(image_id_id = im_id)
             else:
                 print ("Not present")
+
+        
+
 
         # sleep few seconds to avoid database block
         sleep(5)

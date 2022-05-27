@@ -27,4 +27,4 @@ def fetch_user_recent_tweets(username = 'twitterdev'):
         print(data['created_at'])
         fetch_twitter_public_metrics(data['id'])
 
-fetch_user_recent_tweets()
+# fetch_user_recent_tweets()
