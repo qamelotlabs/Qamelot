@@ -169,7 +169,7 @@ class TwwetData(models.Model):
     mentions = jsonfield.JSONField()
 
     def __str__(self):
-        return self.name
+        return self.author_id
         
     class Meta:
         verbose_name = 'Tweet Data'
