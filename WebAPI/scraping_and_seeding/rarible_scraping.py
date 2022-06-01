@@ -1,9 +1,5 @@
 from WebAPI.project_modules import *
-<<<<<<< HEAD
-# from .collection_scraping import *
-=======
 from .collection_scraping import *
->>>>>>> develop
 from .image_scraping import *
 
 
