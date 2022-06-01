@@ -74,7 +74,7 @@ def create_twitter_data(data):
             reply_count=data['metrics']['data'][0]['public_metrics']['reply_count'],
             like_count=data['metrics']['data'][0]['public_metrics']['like_count'],
             quote_count=data['metrics']['data'][0]['public_metrics']['quote_count'],
-            text=data['metrics']['data'][0]['text'],
+            twitter_text=data['metrics']['data'][0]['text'],
             # in_reply_to_user_id   = ''
             # referenced_tweets     = ''
             # mentions              = ''

@@ -163,7 +163,7 @@ class TwwetData(models.Model):
     reply_count = models.IntegerField(default=0, blank=True)
     like_count = models.IntegerField(default=0, blank=True)
     quote_count = models.IntegerField(default=0, blank=True)
-    text = models.TextField()
+    twitter_text = models.TextField()
     in_reply_to_user_id = models.CharField(max_length=100)
     referenced_tweets = jsonfield.JSONField()
     mentions = jsonfield.JSONField()
