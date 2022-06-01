@@ -82,9 +82,3 @@ def create_twitter_data(data):
     else:
         print('exixts')
 
-
-<<<<<<< HEAD
-fetch_user_recent_tweets()
-=======
-# fetch_user_recent_tweets()
->>>>>>> 02a4315... collections scraping and seeding done in developement
