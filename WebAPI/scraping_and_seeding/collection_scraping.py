@@ -2,9 +2,6 @@ from WebAPI.project_modules import *
 from .image_scraping import *
 
 
-
-
-
 def collectionSeeding(datas_collections):
     
     datas_collections = Assets.objects.filter(collection__in=datas_collections)
@@ -23,7 +20,7 @@ def collectionSeeding(datas_collections):
                 blockchain = collections_response['blockchain'],
                 colletion_type = collections_response['type'],
             )
-            
+            print('collection id: ', c_id)
             if 'owner' in collections_response:            
                 owner   = collections_response['owner'],
                 AssetsCollection.objects.filter(id__exact=c_id.id).update(
@@ -97,4 +94,4 @@ datas_collections = Assets.objects.order_by().values_list('collection', flat=Tru
 
 # print(list(datas_collections))
 
-collectionSeeding(list(datas_collections))
+# collectionSeeding(list(datas_collections))
