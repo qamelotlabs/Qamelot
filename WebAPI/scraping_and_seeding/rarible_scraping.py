@@ -306,6 +306,3 @@ def nft_Assets():
     sleep(5)
 
     return res['continuation']
-
-
-# nft_Assets()

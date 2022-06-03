@@ -90,8 +90,6 @@ def collectionSeeding(datas_collections):
             Assets.objects.filter(collection__exact=cdata.id).update(asset_collection_id=c_id)
 
 
-datas_collections = Assets.objects.order_by().values_list('collection', flat=True).distinct()
-
+# datas_collections = Assets.objects.order_by().values_list('collection', flat=True).distinct()
 # print(list(datas_collections))
-
 # collectionSeeding(list(datas_collections))
