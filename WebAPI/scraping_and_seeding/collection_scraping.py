@@ -2,8 +2,13 @@ from Qamelot.project_modules import *
 from .image_scraping import *
 
 
+<<<<<<< HEAD
 def collectionSeedingOldProcess(datas_collections):
     
+=======
+def collectionSeeding(datas_collections):
+    print('running collections')
+>>>>>>> 6c7f2e3... modified all process
     datas_collections = Assets.objects.filter(collection__in=datas_collections)
     # collectionsList = []
     for cdata in datas_collections:
@@ -11,7 +16,7 @@ def collectionSeedingOldProcess(datas_collections):
         # collectionsList.append(cdata)
         snav_timetable_url      = "https://api.rarible.org/v0.1/collections/{}".format(cdata.collection)
         collections_response    = requests.get(snav_timetable_url).json()
-        # print('collectionsList: ', collections_response['id'])
+        print('collectionsList: ', collections_response['id'])
 
         getCollectionDetail = AssetsCollection.objects.filter(collection_id=collections_response['id']).exists()
         if getCollectionDetail is False:
@@ -20,7 +25,7 @@ def collectionSeedingOldProcess(datas_collections):
                 blockchain = collections_response['blockchain'],
                 colletion_type = collections_response['type'],
             )
-            print('collection id: ', c_id)
+            print('collection id: ', c_id.id)
             if 'owner' in collections_response:            
                 owner   = collections_response['owner'],
                 AssetsCollection.objects.filter(id__exact=c_id.id).update(
@@ -87,9 +92,12 @@ def collectionSeedingOldProcess(datas_collections):
                         for im_id in imglist:
                             AssetsCollection.objects.filter(id__exact=c_id.id).update(collection_image_id = im_id)
 
-            Assets.objects.filter(collection__exact=cdata.id).update(asset_collection_id=c_id)
+            Assets.objects.filter(collection__exact=cdata.id).update(asset_collection_id=c_id.id)
 
 
-# datas_collections = Assets.objects.order_by().values_list('collection', flat=True).distinct()
-# print(list(datas_collections))
-# collectionSeeding(list(datas_collections))
+@shared_task
+# some heavy stuff here
+def runCollections():
+    datas_collections = Assets.objects.order_by().values_list('collection', flat=True).distinct()
+    print(list(datas_collections))
+    collectionSeeding(list(datas_collections))

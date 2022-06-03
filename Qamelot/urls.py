@@ -2,7 +2,14 @@ from django.contrib import admin
 from django.urls import path, include
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
+<<<<<<< HEAD
 from NFTCollectionApp.Seeding.CollectionsSeeding import *
+=======
+from WebAPI.scraping_and_seeding.image_scraping import *
+# from WebAPI.scraping_and_seeding.twitter_scraping import *
+from WebAPI.scraping_and_seeding.collection_scraping import *
+from WebAPI.scraping_and_seeding.rarible_scraping import *
+>>>>>>> 6c7f2e3... modified all process
 from .scheduler import *
 
 urlpatterns = [
