@@ -298,9 +298,7 @@ def nft_Assets():
                 else:
                     print ("Not present")
 
-    collections_list = Assets.objects.order_by().values_list('collection', flat=True).distinct()
-
-    collectionSeeding(list(collections_list))
+    runCollections()
 
     # sleep few seconds to avoid database block
     sleep(5)
