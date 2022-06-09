@@ -1,8 +1,8 @@
-from WebAPI.project_modules import *
+from Qamelot.project_modules import *
 from .image_scraping import *
 
 
-def collectionSeeding(datas_collections):
+def collectionSeedingOldProcess(datas_collections):
     
     datas_collections = Assets.objects.filter(collection__in=datas_collections)
     # collectionsList = []

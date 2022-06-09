@@ -1,4 +1,4 @@
-from WebAPI.project_modules import *
+from Qamelot.project_modules import *
 
 
 def fetch_twitter_public_metrics(id='1527749317402013696'):
@@ -93,4 +93,4 @@ def create_twitter_data(data):
             
 
 
-fetch_user_recent_tweets()
+# fetch_user_recent_tweets()

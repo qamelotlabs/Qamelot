@@ -1,4 +1,4 @@
-from WebAPI.project_modules import *
+from Qamelot.project_modules import *
 
 
 def uploadFile(url, imageSubname):
