@@ -3,7 +3,7 @@ from Qamelot.project_modules import *
 
 @shared_task
 def collectionSeeding():
-    print('Collection Seeding Process Begin')
+    print('Collection Seeding Process Begin...')
     url = "https://top-nft-collections-and-sales.p.rapidapi.com/collections/1d"
     headers = {
     	"X-RapidAPI-Host": "top-nft-collections-and-sales.p.rapidapi.com",

@@ -294,11 +294,4 @@ def nft_Assets():
                 else:
                     print ("Not present")
 
-<<<<<<< HEAD:NFTCollectionApp/Seeding/rarible_scraping.py
     collections_list = Assets.objects.order_by().values_list('collection', flat=True).distinct()
-=======
-    runCollections()
->>>>>>> 6c7f2e3... modified all process:WebAPI/scraping_and_seeding/rarible_scraping.py
-
-    # sleep few seconds to avoid database block
-    sleep(5)

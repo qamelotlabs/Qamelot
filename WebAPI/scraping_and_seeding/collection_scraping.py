@@ -2,13 +2,7 @@ from Qamelot.project_modules import *
 from .image_scraping import *
 
 
-<<<<<<< HEAD
 def collectionSeedingOldProcess(datas_collections):
-    
-=======
-def collectionSeeding(datas_collections):
-    print('running collections')
->>>>>>> 6c7f2e3... modified all process
     datas_collections = Assets.objects.filter(collection__in=datas_collections)
     # collectionsList = []
     for cdata in datas_collections:
