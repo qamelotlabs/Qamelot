@@ -26,25 +26,25 @@ class TwitterUsers(models.Model):
 
     def __str__(self):
         return self.name
-
-#     class Meta:
-#         verbose_name = 'Twitter User'
-
-# class TwwetData(models.Model):
-#     id = models.CharField(max_length=100, primary_key=True)
-#     author_id = models.CharField(max_length=100, blank=True)
-#     lang = models.CharField(max_length=10)
-#     retweet_count = models.IntegerField(default=0, blank=True)
-#     reply_count = models.IntegerField(default=0, blank=True)
-#     like_count = models.IntegerField(default=0, blank=True)
-#     quote_count = models.IntegerField(default=0, blank=True)
-#     twitter_text = models.TextField()
-#     in_reply_to_user_id = models.CharField(max_length=100)
-#     referenced_tweets = jsonfield.JSONField()
-#     mentions = jsonfield.JSONField()
-
-#     def __str__(self):
-#         return self.author_id
         
-#     class Meta:
-#         verbose_name = 'Tweet Data'
+    class Meta:
+        verbose_name = 'Twitter User'
+
+class TwwetData(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    author_id = models.CharField(max_length=100, blank=True)
+    lang = models.CharField(max_length=10)
+    retweet_count = models.IntegerField(default=0, blank=True)
+    reply_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True)
+    quote_count = models.IntegerField(default=0, blank=True)
+    twitter_text = models.TextField()
+    in_reply_to_user_id = models.CharField(max_length=100)
+    referenced_tweets = jsonfield.JSONField()
+    mentions = jsonfield.JSONField()
+
+    def __str__(self):
+        return self.author_id
+        
+    class Meta:
+        verbose_name = 'Tweet Data'
