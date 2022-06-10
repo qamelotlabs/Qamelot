@@ -18,11 +18,11 @@ def fetch_user(username='twitterdev'):
     return res.json()
 
 
-def fetch_user_recent_tweets(username='twitterdev'):
+def fetch_user_recent_tweets(username='twitterdev', keyword='Platform'):
     user_details = fetch_user(username)
     if len(user_details['data']) > 0:
         create_user_data(user_details['data'][0])
-        url = '{}tweets/search/recent?query=from:{}&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id,in_reply_to_user_id,referenced_tweets&user.fields=created_at,entities'.format(settings.TWITER_API_URL, username)
+        url = '{}tweets/search/recent?query={} from:{}&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id,in_reply_to_user_id,referenced_tweets&user.fields=created_at,entities'.format(settings.TWITER_API_URL, keyword, username)
         headers = {'Authorization': 'Bearer {}'.format(
             settings.TWITTER_BEARER_TOKEN)}
         res = requests.get(url, headers=headers)
