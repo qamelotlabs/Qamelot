@@ -1,4 +1,5 @@
 from NFTCollectionApp.Seeding.CollectionsSeeding import *
+from TwitterApp.scraping_and_seeding.twitter_scraping import *
 from Qamelot.project_modules import *
 
 

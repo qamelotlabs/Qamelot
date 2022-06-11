@@ -15,7 +15,7 @@ from multiprocessing import Process
 
 from WebAPI.models import *
 from NFTCollectionApp.models import *
-
+from TwitterApp.models import *
 
 s3 = boto3.resource(
     's3', 
