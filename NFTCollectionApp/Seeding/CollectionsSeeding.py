@@ -12,6 +12,8 @@ def collectionSeeding():
     response = requests.request("GET", url, headers=headers)
     resData = response.json()
 
+    today = date.today()
+
     create_list = []
     for dta in resData:
         urlSlug = dta['collection_url'].rsplit('/', 1)[-1]
@@ -30,7 +32,8 @@ def collectionSeeding():
             collection_name     = dta['collection_name'],
             trades              = dta['trades'],
             volume              = dta['volume'],
-            floor               = dta['floor']
+            floor               = dta['floor'],
+            updated_at          = today
             )
             )
         else:
@@ -41,7 +44,8 @@ def collectionSeeding():
             ).update(
                 trades              = dta['trades'],
                 volume              = dta['volume'],
-                floor               = dta['floor']
+                floor               = dta['floor'],
+                updated_at          = today
             )
 
     NFTCollection.objects.bulk_create(create_list)
