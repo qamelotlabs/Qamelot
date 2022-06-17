@@ -9,20 +9,119 @@ class getTopCollections(APIView):
     def get(self, request, format=None):
         timeRange = self.request.query_params.get('timeRange')
         collectionList = []
-        if timeRange == 'day':
-            dataCollections = NFTCollection.objects.filter(updated_at__exact=str(today))
+        if timeRange == '1d':
+            dataCollections = NFTCollection.objects.filter(createdAt__gte=str(today), updatedAt__lte=str(today))
             for collection in dataCollections:
                 
                 resData = {
-                    # 'id'                        : collection.id,
-                    'collectionUrl'            : collection.collection_url,
-                    'slug'                      : collection.slug,
-                    'collectionName'             : collection.collection_name,
-                    'collectionDescription'    : collection.collection_description,
-                    'trades'                    : collection.trades,
-                    'volume'                    : collection.volume,
-                    'floor'                     : collection.floor,
-                    'updated_at'                : collection.updated_at
+                    'id'                        : collection.id,
+                    'collectionAddress'           : collectionAddress,
+                    'collectionUrl'               : collectionUrl,
+                    'slug'                        : slug,
+                    'collectionType'              : collectionType,
+                    'collectionName'              : collectionName,
+                    'collectionDescription'       : collectionDescription,
+                    'oneDayVolume'                : oneDayVolume,
+                    'oneDayChange'                : oneDayChange,
+                    'oneDaySales'                 : oneDaySales,
+                    'oneDayAveragePrice'          : oneDayAveragePrice,
+                    'totalVolume'                 : totalVolume,
+                    'totalSales'                  : totalSales,
+                    'totalSupply'                 : totalSupply,
+                    'count'                       : count,
+                    'numOwners'                   : numOwners,
+                    'averagePrice'                : averagePrice,
+                    'numReports'                  : umReports,
+                    'marketCap'                   : marketCap,
+                    'floorPrice'                  : floorPrice,
+                    'collectionSymbol'            : collectionSymbol,
+                    'owner'                       : owner,
+                    'externalImageUrl'            : externalImageUrl,
+                    'awsBucketImageUrl'           : awsBucketImageUrl,
+                    'externalLink'                : externalLink,
+                    'safelistRequestStatus'       : safelistRequestStatus,
+                    'twitterUsername'             : twitterUsername,
+                    'discordUrl'                  : discordUrl,
+                    'createdAt'                   : createdAt,
+                    'updatedAt'                   : updatedAt
+                }
+
+                collectionList.append(resData)
+        
+        elif timeRange == '7d':
+            dataCollections = NFTCollection.objects.filter(updatedAt__exact=str(today))
+            for collection in dataCollections:
+                
+                resData = {
+                    'id'                            : collection.id,
+                    'collectionAddress'             : collectionAddress,
+                    'collectionUrl'                 : collectionUrl,
+                    'slug'                          : slug,
+                    'collectionType'                : collectionType,
+                    'collectionName'                : collectionName,
+                    'collectionDescription'         : collectionDescription,
+                    'sevenDayVolume'                : sevenDayVolume,
+                    'sevenDayChange'                : sevenDayChange,
+                    'sevenDaySales'                 : sevenDaySales,
+                    'sevenDayAveragePrice'          : sevenDayAveragePrice,
+                    'totalVolume'                   : totalVolume,
+                    'totalSales'                    : totalSales,
+                    'totalSupply'                   : totalSupply,
+                    'count'                         : count,
+                    'numOwners'                     : numOwners,
+                    'averagePrice'                  : averagePrice,
+                    'numReports'                    : umReports,
+                    'marketCap'                     : marketCap,
+                    'floorPrice'                    : floorPrice,
+                    'collectionSymbol'              : collectionSymbol,
+                    'owner'                         : owner,
+                    'externalImageUrl'              : externalImageUrl,
+                    'awsBucketImageUrl'             : awsBucketImageUrl,
+                    'externalLink'                  : externalLink,
+                    'safelistRequestStatus'         : safelistRequestStatus,
+                    'twitterUsername'               : twitterUsername,
+                    'discordUrl'                    : discordUrl,
+                    'createdAt'                     : createdAt,
+                    'updatedAt'                     : updatedAt
+                }
+
+                collectionList.append(resData)
+
+        elif timeRange == '30d':
+            dataCollections = NFTCollection.objects.filter(updatedAt__exact=str(today))
+            for collection in dataCollections:
+                
+                resData = {
+                    'id'                            : collection.id,
+                    'collectionAddress'             : collectionAddress,
+                    'collectionUrl'                 : collectionUrl,
+                    'slug'                          : slug,
+                    'collectionType'                : collectionType,
+                    'collectionName'                : collectionName,
+                    'collectionDescription'         : collectionDescription,
+                    'thirtyDayVolume'               : thirtyDayVolume,
+                    'thirtyDayChange'               : thirtyDayChange,
+                    'thirtyDaySales'                : thirtyDaySales,
+                    'thirtyDayAveragePrice'         : thirtyDayAveragePrice,
+                    'totalVolume'                   : totalVolume,
+                    'totalSales'                    : totalSales,
+                    'totalSupply'                   : totalSupply,
+                    'count'                         : count,
+                    'numOwners'                     : numOwners,
+                    'averagePrice'                  : averagePrice,
+                    'numReports'                    : umReports,
+                    'marketCap'                     : marketCap,
+                    'floorPrice'                    : floorPrice,
+                    'collectionSymbol'              : collectionSymbol,
+                    'owner'                         : owner,
+                    'externalImageUrl'              : externalImageUrl,
+                    'awsBucketImageUrl'             : awsBucketImageUrl,
+                    'externalLink'                  : externalLink,
+                    'safelistRequestStatus'         : safelistRequestStatus,
+                    'twitterUsername'               : twitterUsername,
+                    'discordUrl'                    : discordUrl,
+                    'createdAt'                     : createdAt,
+                    'updatedAt'                     : updatedAt
                 }
 
                 collectionList.append(resData)
@@ -33,3 +132,11 @@ class getTopCollections(APIView):
         }
 
         return Response(resContent)
+
+
+# -------------------------------------------------------------------------------------------------- #
+
+
+# dataCollections = NFTCollection.objects.filter(createdAt__gte=str(today), updatedAt__lte=str(today))
+# for collection in dataCollections:
+#     print(collection)

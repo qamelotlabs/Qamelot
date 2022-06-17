@@ -8,8 +8,9 @@ from NFTCollectionApp.Seeding.CollectionsSeeding import *
 # from .scheduler import *
 
 urlpatterns = [
+    # path('graphql', GraphQLView.as_view(graphiql=True)),
+
     path('admin/', admin.site.urls),
     path('',include('WebAPI.urls')),
-    # path('graphql', GraphQLView.as_view(graphiql=True)),
     path('graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
