@@ -48,11 +48,11 @@ class NFTCollection(models.Model):
     safelistRequestStatus       = models.CharField(max_length=255, blank=True)
     twitterUsername             = models.CharField(max_length=255, blank=True)
     discordUrl                  = models.CharField(max_length=255, blank=True)
-    createdAt                   = models.CharField(max_length=255, blank=True)
-    updatedAt                   = models.CharField(max_length=255, blank=True)
+    createdAt                   = models.DateField(blank=True, null=True)
+    updatedAt                   = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.collection_name
+        return self.collectionName
 
     class Meta:
         verbose_name = 'NFT Collection'

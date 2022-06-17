@@ -10,118 +10,162 @@ class getTopCollections(APIView):
         timeRange = self.request.query_params.get('timeRange')
         collectionList = []
         if timeRange == '1d':
-            dataCollections = NFTCollection.objects.filter(createdAt__gte=str(today), updatedAt__lte=str(today))
-            for collection in dataCollections:
-                
-                resData = {
-                    'id'                        : collection.id,
-                    'collectionAddress'           : collectionAddress,
-                    'collectionUrl'               : collectionUrl,
-                    'slug'                        : slug,
-                    'collectionType'              : collectionType,
-                    'collectionName'              : collectionName,
-                    'collectionDescription'       : collectionDescription,
-                    'oneDayVolume'                : oneDayVolume,
-                    'oneDayChange'                : oneDayChange,
-                    'oneDaySales'                 : oneDaySales,
-                    'oneDayAveragePrice'          : oneDayAveragePrice,
-                    'totalVolume'                 : totalVolume,
-                    'totalSales'                  : totalSales,
-                    'totalSupply'                 : totalSupply,
-                    'count'                       : count,
-                    'numOwners'                   : numOwners,
-                    'averagePrice'                : averagePrice,
-                    'numReports'                  : umReports,
-                    'marketCap'                   : marketCap,
-                    'floorPrice'                  : floorPrice,
-                    'collectionSymbol'            : collectionSymbol,
-                    'owner'                       : owner,
-                    'externalImageUrl'            : externalImageUrl,
-                    'awsBucketImageUrl'           : awsBucketImageUrl,
-                    'externalLink'                : externalLink,
-                    'safelistRequestStatus'       : safelistRequestStatus,
-                    'twitterUsername'             : twitterUsername,
-                    'discordUrl'                  : discordUrl,
-                    'createdAt'                   : createdAt,
-                    'updatedAt'                   : updatedAt
-                }
-
-                collectionList.append(resData)
-        
-        elif timeRange == '7d':
-            dataCollections = NFTCollection.objects.filter(updatedAt__exact=str(today))
+            dataCollections = NFTCollection.objects.all().order_by('-oneDayChange', '-oneDayAveragePrice')
             for collection in dataCollections:
                 
                 resData = {
                     'id'                            : collection.id,
-                    'collectionAddress'             : collectionAddress,
-                    'collectionUrl'                 : collectionUrl,
-                    'slug'                          : slug,
-                    'collectionType'                : collectionType,
-                    'collectionName'                : collectionName,
-                    'collectionDescription'         : collectionDescription,
-                    'sevenDayVolume'                : sevenDayVolume,
-                    'sevenDayChange'                : sevenDayChange,
-                    'sevenDaySales'                 : sevenDaySales,
-                    'sevenDayAveragePrice'          : sevenDayAveragePrice,
-                    'totalVolume'                   : totalVolume,
-                    'totalSales'                    : totalSales,
-                    'totalSupply'                   : totalSupply,
-                    'count'                         : count,
-                    'numOwners'                     : numOwners,
-                    'averagePrice'                  : averagePrice,
-                    'numReports'                    : umReports,
-                    'marketCap'                     : marketCap,
-                    'floorPrice'                    : floorPrice,
-                    'collectionSymbol'              : collectionSymbol,
-                    'owner'                         : owner,
-                    'externalImageUrl'              : externalImageUrl,
-                    'awsBucketImageUrl'             : awsBucketImageUrl,
-                    'externalLink'                  : externalLink,
-                    'safelistRequestStatus'         : safelistRequestStatus,
-                    'twitterUsername'               : twitterUsername,
-                    'discordUrl'                    : discordUrl,
-                    'createdAt'                     : createdAt,
-                    'updatedAt'                     : updatedAt
+                    'collectionAddress'             : collection.collectionAddress,
+                    'collectionUrl'                 : collection.collectionUrl,
+                    'slug'                          : collection.slug,
+                    'collectionType'                : collection.collectionType,
+                    'collectionName'                : collection.collectionName,
+                    'collectionDescription'         : collection.collectionDescription,
+                    'oneDayVolume'                  : collection.oneDayVolume,
+                    'oneDayChange'                  : collection.oneDayChange,
+                    'oneDaySales'                   : collection.oneDaySales,
+                    'oneDayAveragePrice'            : collection.oneDayAveragePrice,
+                    'totalVolume'                   : collection.totalVolume,
+                    'totalSales'                    : collection.totalSales,
+                    'totalSupply'                   : collection.totalSupply,
+                    'count'                         : collection.count,
+                    'numOwners'                     : collection.numOwners,
+                    'averagePrice'                  : collection.averagePrice,
+                    'numReports'                    : collection.numReports,
+                    'marketCap'                     : collection.marketCap,
+                    'floorPrice'                    : collection.floorPrice,
+                    'collectionSymbol'              : collection.collectionSymbol,
+                    'owner'                         : collection.owner,
+                    'externalImageUrl'              : collection.externalImageUrl,
+                    'awsBucketImageUrl'             : collection.awsBucketImageUrl,
+                    'externalLink'                  : collection.externalLink,
+                    'safelistRequestStatus'         : collection.safelistRequestStatus,
+                    'twitterUsername'               : collection.twitterUsername,
+                    'discordUrl'                    : collection.discordUrl,
+                    'createdAt'                     : collection.createdAt,
+                    'updatedAt'                     : collection.updatedAt
+                }
+                
+                collectionList.append(resData)
+        
+        elif timeRange == '7d':
+            dataCollections = NFTCollection.objects.all().order_by('-sevenDayChange', '-sevenDayAveragePrice')
+            for collection in dataCollections:
+                
+                resData = {
+                    'id'                            : collection.id,
+                    'collectionAddress'             : collection.collectionAddress,
+                    'collectionUrl'                 : collection.collectionUrl,
+                    'slug'                          : collection.slug,
+                    'collectionType'                : collection.collectionType,
+                    'collectionName'                : collection.collectionName,
+                    'collectionDescription'         : collection.collectionDescription,
+                    'sevenDayVolume'                : collection.sevenDayVolume,
+                    'sevenDayChange'                : collection.sevenDayChange,
+                    'sevenDaySales'                 : collection.sevenDaySales,
+                    'sevenDayAveragePrice'          : collection.sevenDayAveragePrice,
+                    'totalVolume'                   : collection.totalVolume,
+                    'totalSales'                    : collection.totalSales,
+                    'totalSupply'                   : collection.totalSupply,
+                    'count'                         : collection.count,
+                    'numOwners'                     : collection.numOwners,
+                    'averagePrice'                  : collection.averagePrice,
+                    'numReports'                    : collection.numReports,
+                    'marketCap'                     : collection.marketCap,
+                    'floorPrice'                    : collection.floorPrice,
+                    'collectionSymbol'              : collection.collectionSymbol,
+                    'owner'                         : collection.owner,
+                    'externalImageUrl'              : collection.externalImageUrl,
+                    'awsBucketImageUrl'             : collection.awsBucketImageUrl,
+                    'externalLink'                  : collection.externalLink,
+                    'safelistRequestStatus'         : collection.safelistRequestStatus,
+                    'twitterUsername'               : collection.twitterUsername,
+                    'discordUrl'                    : collection.discordUrl,
+                    'createdAt'                     : collection.createdAt,
+                    'updatedAt'                     : collection.updatedAt
                 }
 
                 collectionList.append(resData)
 
         elif timeRange == '30d':
-            dataCollections = NFTCollection.objects.filter(updatedAt__exact=str(today))
+            dataCollections = NFTCollection.objects.all().order_by('-thirtyDayChange','-thirtyDayAveragePrice')
             for collection in dataCollections:
                 
                 resData = {
                     'id'                            : collection.id,
-                    'collectionAddress'             : collectionAddress,
-                    'collectionUrl'                 : collectionUrl,
-                    'slug'                          : slug,
-                    'collectionType'                : collectionType,
-                    'collectionName'                : collectionName,
-                    'collectionDescription'         : collectionDescription,
-                    'thirtyDayVolume'               : thirtyDayVolume,
-                    'thirtyDayChange'               : thirtyDayChange,
-                    'thirtyDaySales'                : thirtyDaySales,
-                    'thirtyDayAveragePrice'         : thirtyDayAveragePrice,
-                    'totalVolume'                   : totalVolume,
-                    'totalSales'                    : totalSales,
-                    'totalSupply'                   : totalSupply,
-                    'count'                         : count,
-                    'numOwners'                     : numOwners,
-                    'averagePrice'                  : averagePrice,
-                    'numReports'                    : umReports,
-                    'marketCap'                     : marketCap,
-                    'floorPrice'                    : floorPrice,
-                    'collectionSymbol'              : collectionSymbol,
-                    'owner'                         : owner,
-                    'externalImageUrl'              : externalImageUrl,
-                    'awsBucketImageUrl'             : awsBucketImageUrl,
-                    'externalLink'                  : externalLink,
-                    'safelistRequestStatus'         : safelistRequestStatus,
-                    'twitterUsername'               : twitterUsername,
-                    'discordUrl'                    : discordUrl,
-                    'createdAt'                     : createdAt,
-                    'updatedAt'                     : updatedAt
+                    'collectionAddress'             : collection.collectionAddress,
+                    'collectionUrl'                 : collection.collectionUrl,
+                    'slug'                          : collection.slug,
+                    'collectionType'                : collection.collectionType,
+                    'collectionName'                : collection.collectionName,
+                    'collectionDescription'         : collection.collectionDescription,
+                    'thirtyDayVolume'               : collection.thirtyDayVolume,
+                    'thirtyDayChange'               : collection.thirtyDayChange,
+                    'thirtyDaySales'                : collection.thirtyDaySales,
+                    'thirtyDayAveragePrice'         : collection.thirtyDayAveragePrice,
+                    'totalVolume'                   : collection.totalVolume,
+                    'totalSales'                    : collection.totalSales,
+                    'totalSupply'                   : collection.totalSupply,
+                    'count'                         : collection.count,
+                    'numOwners'                     : collection.numOwners,
+                    'averagePrice'                  : collection.averagePrice,
+                    'numReports'                    : collection.numReports,
+                    'marketCap'                     : collection.marketCap,
+                    'floorPrice'                    : collection.floorPrice,
+                    'collectionSymbol'              : collection.collectionSymbol,
+                    'owner'                         : collection.owner,
+                    'externalImageUrl'              : collection.externalImageUrl,
+                    'awsBucketImageUrl'             : collection.awsBucketImageUrl,
+                    'externalLink'                  : collection.externalLink,
+                    'safelistRequestStatus'         : collection.safelistRequestStatus,
+                    'twitterUsername'               : collection.twitterUsername,
+                    'discordUrl'                    : collection.discordUrl,
+                    'createdAt'                     : collection.createdAt,
+                    'updatedAt'                     : collection.updatedAt
+                }
+
+                collectionList.append(resData)
+
+        else:
+            dataCollections = NFTCollection.objects.all().order_by(
+                    '-updatedAt',
+                    '-oneDayChange', '-oneDayAveragePrice',
+                    '-sevenDayChange', '-sevenDayAveragePrice',
+                    '-thirtyDayChange','-thirtyDayAveragePrice'
+                    )[:100]
+            for collection in dataCollections:
+                
+                resData = {
+                    'id'                            : collection.id,
+                    'collectionAddress'             : collection.collectionAddress,
+                    'collectionUrl'                 : collection.collectionUrl,
+                    'slug'                          : collection.slug,
+                    'collectionType'                : collection.collectionType,
+                    'collectionName'                : collection.collectionName,
+                    'collectionDescription'         : collection.collectionDescription,
+                    'thirtyDayVolume'               : collection.thirtyDayVolume,
+                    'thirtyDayChange'               : collection.thirtyDayChange,
+                    'thirtyDaySales'                : collection.thirtyDaySales,
+                    'thirtyDayAveragePrice'         : collection.thirtyDayAveragePrice,
+                    'totalVolume'                   : collection.totalVolume,
+                    'totalSales'                    : collection.totalSales,
+                    'totalSupply'                   : collection.totalSupply,
+                    'count'                         : collection.count,
+                    'numOwners'                     : collection.numOwners,
+                    'averagePrice'                  : collection.averagePrice,
+                    'numReports'                    : collection.numReports,
+                    'marketCap'                     : collection.marketCap,
+                    'floorPrice'                    : collection.floorPrice,
+                    'collectionSymbol'              : collection.collectionSymbol,
+                    'owner'                         : collection.owner,
+                    'externalImageUrl'              : collection.externalImageUrl,
+                    'awsBucketImageUrl'             : collection.awsBucketImageUrl,
+                    'externalLink'                  : collection.externalLink,
+                    'safelistRequestStatus'         : collection.safelistRequestStatus,
+                    'twitterUsername'               : collection.twitterUsername,
+                    'discordUrl'                    : collection.discordUrl,
+                    'createdAt'                     : collection.createdAt,
+                    'updatedAt'                     : collection.updatedAt
                 }
 
                 collectionList.append(resData)
@@ -136,7 +180,6 @@ class getTopCollections(APIView):
 
 # -------------------------------------------------------------------------------------------------- #
 
-
-# dataCollections = NFTCollection.objects.filter(createdAt__gte=str(today), updatedAt__lte=str(today))
-# for collection in dataCollections:
-#     print(collection)
+# dataCollections = NFTCollection.objects.all().order_by('-oneDayChange', '-oneDayAveragePrice')
+# for dat in dataCollections:
+#     print(dat.oneDayChange, dat.oneDayAveragePrice)
