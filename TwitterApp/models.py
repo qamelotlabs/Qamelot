@@ -33,6 +33,7 @@ class TwitterUsers(models.Model):
 class TweetData(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     author_id = models.CharField(max_length=100, blank=True)
+    collection_id = models.CharField(max_length=100, blank=True)
     lang = models.CharField(max_length=10)
     retweet_count = models.IntegerField(default=0, blank=True)
     reply_count = models.IntegerField(default=0, blank=True)
@@ -57,6 +58,18 @@ class NftInfluencers(models.Model):
 
     def __str__(self):
         return self.name
+        
+    class Meta:
+        verbose_name = 'Nft Influencers'
+
+class CollectionSeedStatus(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    collection_id = models.CharField(max_length=100, blank=True)
+    status = models.BooleanField(default=True)
+    created_at = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.collection_id
         
     class Meta:
         verbose_name = 'Nft Influencers'

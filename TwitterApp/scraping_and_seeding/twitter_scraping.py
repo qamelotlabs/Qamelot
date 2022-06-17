@@ -18,31 +18,35 @@ def fetch_user(username='twitterdev'):
     return res.json()
 
 
-def fetch_user_recent_tweets(username='twitterdev', keyword='Platform'):
-    user_details = fetch_user(username)
-    if 'data' in user_details:
-        if len(user_details['data']) > 0:
-            create_user_data(user_details['data'][0])
-            url = '{}tweets/search/recent?query={} from:{}&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id,in_reply_to_user_id,referenced_tweets&user.fields=created_at,entities'.format(settings.TWITER_API_URL, keyword, username)
-            headers = {'Authorization': 'Bearer {}'.format(
-                settings.TWITTER_BEARER_TOKEN)}
-            res = requests.get(url, headers=headers)
-
-            twitterResData = res.json()
-            if 'data' in twitterResData:
-                for data in twitterResData['data']:
-                    data['metrics'] = fetch_twitter_public_metrics(data['id'])
-                    if len(data) > 0:
-                        # print(data)
-                        create_twitter_data(data)
-                    else:
-                        print('Tweet data not found')
-            else:
-                print('Tweet data not found')
-        else:
-            print('User data not available')
-    else:
-        print('User data not available')
+def fetch_user_recent_tweets(usernames='twitterdev', keyword='Platform'):
+    # user_details = fetch_user(username)
+    # if 'data' in user_details:
+    #     if len(user_details['data']) > 0:
+    #         create_user_data(user_details['data'][0])
+            objs = NFTCollection.objects.all()
+            influencer_names = ''
+            for o in objs:
+                print('collection_name: ', o.collectionName)
+                keyword = o.collectionName
+                url = '{}tweets/search/recent?query={} from:{}&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id,in_reply_to_user_id,referenced_tweets&user.fields=created_at,entities'.format(settings.TWITER_API_URL, keyword, usernames)
+                headers = {'Authorization': 'Bearer {}'.format(
+                    settings.TWITTER_BEARER_TOKEN)}
+                res = requests.get(url, headers=headers)
+                twitterResData = res.json()
+                if 'data' in twitterResData:
+                    for data in twitterResData['data']:
+                        data['metrics'] = fetch_twitter_public_metrics(data['id'])
+                        if len(data) > 0:
+                            print(data)
+                            create_twitter_data(data)
+                        else:
+                            print('Tweet data not found1')
+                else:
+                    print('Tweet data not found2')
+    #     else:
+    #         print('User data not available')
+    # else:
+    #     print('User data not available')
 
 def create_user_data(data):
 
@@ -98,8 +102,12 @@ def create_twitter_data(data):
 
 def fetch_influencers():
     objs = NftInfluencers.objects.all()
+    influencer_names = ''
     for o in objs:
-        print(o.name)
-        fetch_user_recent_tweets(o.name)
+        print('name: ', o.name)
+        influencer_names += o.name+' OR '
+    influencer_names = influencer_names[:-4]
+    print('----'+influencer_names)
+    fetch_user_recent_tweets(influencer_names)    
 
 fetch_influencers()
