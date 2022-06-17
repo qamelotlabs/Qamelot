@@ -11,10 +11,10 @@ def uploadFile(url, imageSubname):
     req_data = file_object_from_req.read()
 
     # Do the actual upload to s3
-    s3.Bucket(bucket_name).put_object(Key = 'assets_images/' + filename, Body=req_data)
+    s3.Bucket(bucket_name).put_object(
+        Key='assets_images/' + filename, Body=req_data)
 
-    new_meta_url = 'https://%s.s3.amazonaws.com/%s' % (settings.AWS_STORAGE_BUCKET_NAME, 'assets_images/' + filename)
+    new_meta_url = 'https://%s.s3.amazonaws.com/%s' % (
+        settings.AWS_STORAGE_BUCKET_NAME, 'assets_images/' + filename)
 
     return new_meta_url
-
-
