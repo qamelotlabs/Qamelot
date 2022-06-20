@@ -63,7 +63,6 @@ class NftInfluencers(models.Model):
         verbose_name = 'Nft Influencers'
 
 class CollectionSeedStatus(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
     collection_id = models.CharField(max_length=100, blank=True)
     status = models.BooleanField(default=True)
     created_at = models.CharField(max_length=100, blank=True)
@@ -72,4 +71,4 @@ class CollectionSeedStatus(models.Model):
         return self.collection_id
         
     class Meta:
-        verbose_name = 'Nft Influencers'
+        verbose_name = 'Collection Seed Status'
