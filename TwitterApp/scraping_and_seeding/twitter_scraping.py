@@ -80,10 +80,7 @@ def create_twitter_data(data):
                 like_count=data['metrics']['data'][0]['public_metrics']['like_count'],
                 quote_count=data['metrics']['data'][0]['public_metrics']['quote_count'],
                 twitter_text=data['metrics']['data'][0]['text'],
-                collection_id=data['collection_id'],
-                # in_reply_to_user_id=data['in_reply_to_user_id'],
-                # referenced_tweets=data['referenced_tweets'],
-                # mentions              = ''
+                collection_id=data['collection_id']
             )
             if 'in_reply_to_user_id' in data:
                 TweetData.objects.filter(id__exact=tweetDetail.id).update(
