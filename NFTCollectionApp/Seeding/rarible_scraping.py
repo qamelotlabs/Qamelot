@@ -1,5 +1,5 @@
-from WebAPI.project_modules import *
-from .collection_scraping import *
+from Qamelot.project_modules import *
+# from .collection_scraping import *
 from .image_scraping import *
 
 
@@ -134,13 +134,9 @@ def create_Assets():
             else:
                 print ("Not present")
 
-        
-
-
         # sleep few seconds to avoid database block
         sleep(5)
 
-    return res['continuation']
 
 
 
@@ -298,9 +294,4 @@ def nft_Assets():
                 else:
                     print ("Not present")
 
-    runCollections()
-
-    # sleep few seconds to avoid database block
-    sleep(5)
-
-    return res['continuation']
+    collections_list = Assets.objects.order_by().values_list('collection', flat=True).distinct()
