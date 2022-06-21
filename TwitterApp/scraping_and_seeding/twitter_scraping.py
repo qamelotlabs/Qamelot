@@ -108,4 +108,4 @@ def fetch_influencers():
     print('----'+influencer_names)
     fetch_user_recent_tweets(influencer_names)    
 
-fetch_influencers()
+# fetch_influencers()
