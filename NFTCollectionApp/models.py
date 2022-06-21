@@ -12,13 +12,7 @@ from imagekit.admin import AdminThumbnail
 from django import forms
 
 
-class NFTCollection(models.Model):
-    collectionAddress = models.CharField(max_length=255, blank=True)
-    collectionUrl = models.CharField(max_length=255, blank=True)
-    slug = models.CharField(max_length=255, blank=True)
-    collectionType = models.CharField(max_length=255, blank=True)
-    collectionName = models.CharField(max_length=255, blank=True)
-    collectionDescription = models.TextField(blank=True, default='')
+class collectionStats(models.Model):
     oneDayVolume = models.CharField(max_length=255, blank=True)
     oneDayChange = models.CharField(max_length=255, blank=True)
     oneDaySales = models.CharField(max_length=255, blank=True)
@@ -40,6 +34,16 @@ class NFTCollection(models.Model):
     numReports = models.CharField(max_length=255, blank=True)
     marketCap = models.CharField(max_length=255, blank=True)
     floorPrice = models.CharField(max_length=255, blank=True)
+
+
+class NFTCollection(models.Model):
+    collectionAddress = models.CharField(max_length=255, blank=True)
+    collectionUrl = models.CharField(max_length=255, blank=True)
+    slug = models.CharField(max_length=255, blank=True)
+    collectionType = models.CharField(max_length=255, blank=True)
+    collectionName = models.CharField(max_length=255, blank=True)
+    collectionDescription = models.TextField(blank=True, default='')
+    stats = models.ForeignKey(collectionStats, on_delete=models.CASCADE, related_name='stats')
     collectionSymbol = models.CharField(max_length=255, blank=True)
     owner = models.CharField(max_length=255, blank=True)
     externalImageUrl = models.CharField(max_length=255, blank=True)
