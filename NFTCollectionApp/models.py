@@ -12,7 +12,34 @@ from imagekit.admin import AdminThumbnail
 from django import forms
 
 
-class collectionStats(models.Model):
+class NFTCollection(models.Model):
+    collectionAddress = models.CharField(max_length=255, blank=True)
+    collectionUrl = models.CharField(max_length=255, blank=True)
+    slug = models.CharField(max_length=255, blank=True)
+    collectionType = models.CharField(max_length=255, blank=True)
+    collectionName = models.CharField(max_length=255, blank=True)
+    collectionDescription = models.TextField(blank=True, default='')
+    collectionSymbol = models.CharField(max_length=255, blank=True)
+    owner = models.CharField(max_length=255, blank=True)
+    externalImageUrl = models.CharField(max_length=255, blank=True)
+    awsBucketImageUrl = models.CharField(max_length=255, blank=True)
+    externalLink = models.CharField(max_length=255, blank=True)
+    safelistRequestStatus = models.CharField(max_length=255, blank=True)
+    twitterUsername = models.CharField(max_length=255, blank=True)
+    discordUrl = models.CharField(max_length=255, blank=True)
+    createdAt = models.DateField(blank=True, null=True)
+    updatedAt = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.collectionName
+
+    class Meta:
+        verbose_name = 'NFT Collection'
+
+
+class collectionStat(models.Model):
+    dateLog = models.DateField(blank=True, null=True)
+    collectionId = models.ForeignKey(NFTCollection, on_delete=models.CASCADE, related_name='collectionId')
     oneDayVolume = models.CharField(max_length=255, blank=True)
     oneDayChange = models.CharField(max_length=255, blank=True)
     oneDaySales = models.CharField(max_length=255, blank=True)
@@ -33,30 +60,10 @@ class collectionStats(models.Model):
     averagePrice = models.CharField(max_length=255, blank=True)
     numReports = models.CharField(max_length=255, blank=True)
     marketCap = models.CharField(max_length=255, blank=True)
-    floorPrice = models.CharField(max_length=255, blank=True)
-
-
-class NFTCollection(models.Model):
-    collectionAddress = models.CharField(max_length=255, blank=True)
-    collectionUrl = models.CharField(max_length=255, blank=True)
-    slug = models.CharField(max_length=255, blank=True)
-    collectionType = models.CharField(max_length=255, blank=True)
-    collectionName = models.CharField(max_length=255, blank=True)
-    collectionDescription = models.TextField(blank=True, default='')
-    stats = models.ForeignKey(collectionStats, on_delete=models.CASCADE, related_name='stats')
-    collectionSymbol = models.CharField(max_length=255, blank=True)
-    owner = models.CharField(max_length=255, blank=True)
-    externalImageUrl = models.CharField(max_length=255, blank=True)
-    awsBucketImageUrl = models.CharField(max_length=255, blank=True)
-    externalLink = models.CharField(max_length=255, blank=True)
-    safelistRequestStatus = models.CharField(max_length=255, blank=True)
-    twitterUsername = models.CharField(max_length=255, blank=True)
-    discordUrl = models.CharField(max_length=255, blank=True)
-    createdAt = models.DateField(blank=True, null=True)
-    updatedAt = models.DateField(blank=True, null=True)
-
+    floorPrice = models.CharField(max_length=255, blank=True)    
+    
     def __str__(self):
-        return self.collectionName
+        return self.totalVolume
 
     class Meta:
-        verbose_name = 'NFT Collection'
+        verbose_name = 'Collection Stat'
