@@ -65,6 +65,16 @@ def create_user_data(data):
         )
     else:
         print('user_exixts')
+        TwitterUsers.objects.filter(id__exact=data['id']).update(
+            url=data['url'],
+            name=data['name'],
+            followers_count=data['public_metrics']['followers_count'],
+            following_count=data['public_metrics']['following_count'],
+            tweet_count=data['public_metrics']['tweet_count'],
+            listed_count=data['public_metrics']['listed_count'],
+            verified=data['verified'],
+            username=data['username'],
+        )
 
 
 def create_twitter_data(data):
@@ -92,6 +102,30 @@ def create_twitter_data(data):
                 )
         else:
             print('Twitter public metrics not available.')
+    else:
+        print('Twitter data updating.')
+        if 'data' in data['metrics']:
+            TweetData.objects.filter(id__exact=data['id']).update(
+                    author_id=data['author_id'],
+                    lang=data['lang'],
+                    retweet_count=data['metrics']['data'][0]['public_metrics']['retweet_count'],
+                    reply_count=data['metrics']['data'][0]['public_metrics']['reply_count'],
+                    like_count=data['metrics']['data'][0]['public_metrics']['like_count'],
+                    quote_count=data['metrics']['data'][0]['public_metrics']['quote_count'],
+                    twitter_text=data['metrics']['data'][0]['text'],
+                    collection_id=data['collection_id']
+                )
+
+            if 'in_reply_to_user_id' in data:
+                TweetData.objects.filter(id__exact=data['id']).update(
+                    in_reply_to_user_id=data['in_reply_to_user_id']
+                )
+            if 'referenced_tweets' in data:
+                TweetData.objects.filter(id__exact=data['id']).update(
+                    referenced_tweets=data['referenced_tweets']
+                )
+        else:
+            print('Twitter public metrics not available.')
 
 
 def fetch_influencers():
@@ -108,4 +142,4 @@ def fetch_influencers():
     print('----'+influencer_names)
     fetch_user_recent_tweets(influencer_names)    
 
-fetch_influencers()
+# fetch_influencers()

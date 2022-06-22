@@ -15,9 +15,11 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.4
+cycler==0.11.0
 decouple==0.0.7
 Django==3.0.5
 django-appconf==1.0.5
+django-cors-headers==3.6.0
 django-filter==21.1
 django-imagekit==4.1.0
 django-jsonfield==1.4.1
@@ -25,6 +27,7 @@ django-storages==1.12.3
 djangorestframework==3.13.1
 djongo==1.3.6
 dnspython==2.2.1
+fonttools==4.33.3
 graphene==2.1.9
 graphene-django==2.15.0
 graphene-mongo==0.2.13
@@ -34,10 +37,13 @@ idna==3.3
 importlib-metadata==4.11.3
 iso8601==1.0.2
 jmespath==1.0.0
+kiwisolver==1.4.3
 kombu==5.2.4
 Markdown==3.3.7
+matplotlib==3.5.2
 mongoengine==0.24.1
 mongomock==4.0.0
+numpy==1.22.4
 oauthlib==3.2.0
 opensea-api==0.1.7
 packaging==21.3
@@ -55,6 +61,7 @@ requests-oauthlib==1.3.1
 Rx==1.6.1
 s3transfer==0.5.2
 schedule==1.1.0
+scipy==1.8.1
 sentinels==1.0.0
 singledispatch==3.7.0
 six==1.16.0
@@ -62,6 +69,7 @@ soupsieve==2.3.2.post1
 sqlparse==0.2.4
 text-unidecode==1.3
 toml==0.10.2
+tzdata==2022.1
 urllib3==1.26.9
 vine==5.0.0
 wcwidth==0.2.5

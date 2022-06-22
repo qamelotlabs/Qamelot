@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from WebAPI.APIView.APICollection import *
 from TwitterApp.scraping_and_seeding.twitter_scraping import *
 from NFTCollectionApp.Seeding.CollectionsSeeding import *
+from dataScience.views import *
 # from .scheduler import *
 
 urlpatterns = [
