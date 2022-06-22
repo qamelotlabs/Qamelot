@@ -10,7 +10,6 @@ class getTopCollections(APIView):
             dataCollections = NFTCollection.objects.all().order_by(
                 '-oneDayChange', '-oneDayAveragePrice'
             )[:100]
-            statsList = []
             for collection in dataCollections:
                 statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id)
                 for st in range(len(statsData)):
