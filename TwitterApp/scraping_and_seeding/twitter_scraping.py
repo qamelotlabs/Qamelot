@@ -129,7 +129,7 @@ def create_twitter_data(data):
 
 
 def fetch_influencers():
-    objs = NftInfluencers.objects.all()
+    objs = NftInfluencers.objects.filter(verified__exact = True)   
     influencer_names = ''
     for o in objs:
         print('name: ', o.name)
