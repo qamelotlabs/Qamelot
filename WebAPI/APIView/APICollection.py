@@ -7,12 +7,12 @@ class getTopCollections(APIView):
         timeRange = self.request.query_params.get('timeRange')
         collectionList = []
         if timeRange == '1d':
-            dataCollections = NFTCollection.objects.all().order_by(
-                '-oneDayChange', '-oneDayAveragePrice'
-            )[:100]
+            dataCollections = NFTCollection.objects.all()[:100]
             statsList = []
             for collection in dataCollections:
-                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id)
+                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id).order_by(
+                '-oneDayChange', '-oneDayAveragePrice'
+            )
                 for st in range(len(statsData)):
                     cstats = {
                         'collectionId': statsData[st].collectionId_id,
@@ -64,11 +64,11 @@ class getTopCollections(APIView):
                 collectionList.append(resData)
 
         elif timeRange == '7d':
-            dataCollections = NFTCollection.objects.all().order_by(
-                '-sevenDayChange', '-sevenDayAveragePrice'
-            )[:100]
+            dataCollections = NFTCollection.objects.all()[:100]
             for collection in dataCollections:
-                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id)
+                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id).order_by(
+                '-sevenDayChange', '-sevenDayAveragePrice'
+            )
                 for st in range(len(statsData)):
                     cstats = {
                         'collectionId': statsData[st].collectionId_id,
@@ -120,11 +120,11 @@ class getTopCollections(APIView):
                 collectionList.append(resData)
 
         elif timeRange == '30d':
-            dataCollections = NFTCollection.objects.all().order_by(
-                '-thirtyDayChange', '-thirtyDayAveragePrice'
-            )[:100]
+            dataCollections = NFTCollection.objects.all()[:100]
             for collection in dataCollections:
-                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id)
+                statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id).order_by(
+                '-thirtyDayChange', '-thirtyDayAveragePrice'
+            )
                 for st in range(len(statsData)):
                     cstats = {
                         'collectionId': statsData[st].collectionId_id,
@@ -177,7 +177,7 @@ class getTopCollections(APIView):
         else:
             dataCollections = NFTCollection.objects.all().order_by(
                 '-updatedAt'
-            )[:10]
+            )[:100]
 
             for collection in dataCollections:
                 statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id)
