@@ -8,7 +8,6 @@ class getTopCollections(APIView):
         collectionList = []
         if timeRange == '1d':
             dataCollections = NFTCollection.objects.all()[:100]
-            statsList = []
             for collection in dataCollections:
                 statsData = collectionStat.objects.filter(collectionId_id__exact = collection.id).order_by(
                 '-oneDayChange', '-oneDayAveragePrice'
