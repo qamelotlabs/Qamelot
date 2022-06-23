@@ -24,6 +24,12 @@ from WebAPI.models import *
 from NFTCollectionApp.models import *
 from TwitterApp.models import *
 
+
+errorMsg = {
+    'error'		: True,
+    'message'	: 'Service temporarily unavailable, try again later'
+}
+
 s3 = boto3.resource(
     's3', 
     region_name=settings.AWS_S3_REGION, 
