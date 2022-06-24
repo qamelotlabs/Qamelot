@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # Create your views here.
 
 def fetchNFTVolume():
-    nfts = NFTCollection.objects.values_list('oneDayVolume','sevenDayVolume','thirtyDayVolume').all()
+    nfts = collectionStat.objects.values_list('oneDayVolume','sevenDayVolume','thirtyDayVolume').all()
     a = numpy.zeros(100,)
     j = 0
     for i in nfts:
