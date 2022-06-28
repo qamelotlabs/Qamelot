@@ -9,11 +9,14 @@ import schedule
 import time
 from datetime import datetime, timedelta
 from os import system
+import os
 from urllib.parse import urlparse
 from django.db.models import Q
 from multiprocessing import Process
-
+from django.core.files.storage import FileSystemStorage
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
@@ -50,3 +53,11 @@ def runParallel(*functions):
     for proc in processes:
         proc.join()
 
+
+def removeFileFromFolder(filename):
+    print(filename)
+    hardFilePath = './' + filename
+    try:
+        os.remove(hardFilePath)
+    except:
+        print("Error while deleting file ", hardFilePath)
