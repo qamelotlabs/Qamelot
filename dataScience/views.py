@@ -16,12 +16,13 @@ def fetchNFTVolume():
             pass 
         j += 1
     plt.plot(a)
+    plt.plot(2*a)
     plt.show()
     plt.clf()
     print(nfts)
         
         
-# fetchNFTVolume()
+fetchNFTVolume()
 
 def fetchTwitterDataVolume(id):
     nfts = TweetData.objects.filter(id__exact= id)
