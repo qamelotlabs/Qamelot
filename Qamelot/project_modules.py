@@ -61,3 +61,5 @@ def removeFileFromFolder(filename):
         os.remove(hardFilePath)
     except:
         print("Error while deleting file ", hardFilePath)
+
+current = datetime.now().date()

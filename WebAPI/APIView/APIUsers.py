@@ -24,8 +24,6 @@ class UserSimRegistrationPostView(APIView):
         except:
             influencers = []
 
-        current = datetime.now().date()
-
         UserDetailData = UserDetail.objects.filter(address__exact = address).exists()
 
         if UserDetailData is False:
@@ -123,7 +121,6 @@ class UserSimRegistrationPostView(APIView):
     def get(self, request, address, format=None):
 
         userInfo = UserDetail.objects.get(address = address)
-        print(userInfo.id)
         
         userData = {
             'id'                    : userInfo.id,
@@ -132,12 +129,14 @@ class UserSimRegistrationPostView(APIView):
             'lastname'              : userInfo.lastname,
             'email'                 : userInfo.email,
             'userImageUrl'          : userInfo.userImageUrl,
-            'influencers'           : userInfo.influencers,
+            # 'influencers'           : userInfo.influencers,
             'createdAt'             : userInfo.createdAt,
             'updatedAt'             : userInfo.updatedAt,
         }
 
+        resContent = {
+                'erorr': False,
+                'data': userData
+            }
 
-
-# userInfo = UserDetail.objects.get(address = '0x1fcd481f8a9e927a6f4ea12364c7a82db222a3ed')
-# print(userInfo.influencers.id)
+        return Response(resContent)

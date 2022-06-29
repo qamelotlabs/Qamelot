@@ -24,4 +24,30 @@ class NftInfluencersView(APIView):
 
     def post(self, request, format=None):
         
-        pass
+        try:
+            name = request.data['name']
+
+            InfluencersData = NftInfluencers.objects.filter(name__exact = name).exists()
+
+            if InfluencersData is False:
+                
+                createInfluencer = NftInfluencers.objects.create(
+                    name            = name,
+                    created_at      = current
+                )
+
+                resData = {
+                    'id'            : createInfluencer.id,
+                    'name'          : createInfluencer.name,
+                    'verified'      : createInfluencer.verified,
+                    'createdAt'     : createInfluencer.created_at
+                }
+
+                resContent = {
+                'erorr': False,
+                'data': resData
+                }
+
+            return Response(resContent)
+        except:
+            return Response(errorMsg)
