@@ -7,7 +7,7 @@ from WebAPI.APIView.APICollectionStats import *
 from TwitterApp.scraping_and_seeding.twitter_scraping import *
 from NFTCollectionApp.Seeding.CollectionsSeeding import *
 from dataScience.views import *
-# from .scheduler import *
+from .scheduler import *
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls import url
 
