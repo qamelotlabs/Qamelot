@@ -13,8 +13,6 @@ def collectionSeeding():
     response = requests.request("GET", url, headers=headers)
     resData = response.json()
 
-    current = datetime.now().date()
-
     create_list = []
     for dta in resData:
         urlSlug = dta['collection_url'].rsplit('/', 1)[-1]
